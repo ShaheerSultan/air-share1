@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirShare - Real-time File Sharing</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h1>AirShare</h1>
+            </div>
+            <div class="header-controls">
+                <button class="btn-icon" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn-icon" id="qrBtn">
+                    <i class="fas fa-qrcode"></i>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="upload-area" id="dropArea">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h2>Drop files here or click to upload</h2>
+                <p>Supports all file types up to 100MB</p>
+                <input type="file" id="fileInput" multiple style="display: none;">
+                <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-plus"></i> Select Files
+                </button>
+                <div class="upload-progress" id="progressContainer" style="display: none;">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <span id="progressText">0%</span>
+                </div>
+            </div>
+
+            <div class="files-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-folder-open"></i> Shared Files</h2>
+                    <div class="file-count">
+                        <span id="fileCount">0</span> files
+                    </div>
+                </div>
+                
+                <div class="files-grid" id="filesGrid">
+                    <!-- Files will appear here dynamically -->
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No files shared yet</p>
+                        <small>Upload a file to get started</small>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Files auto-delete after 10 minutes • Real-time updates</p>
+            <p class="socket-status">
+                <i class="fas fa-circle" id="statusIcon"></i>
+                <span id="statusText">Connecting...</span>
+            </p>
+        </footer>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal" id="qrModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Scan QR Code</h3>
+                <button class="close-btn" onclick="closeQRModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-container">
+                    <canvas id="qrCanvas"></canvas>
+                </div>
+                <p class="qr-url" id="qrUrl"></p>
+                <button class="btn-secondary" onclick="copyQRURL()">
+                    <i class="fas fa-copy"></i> Copy URL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
